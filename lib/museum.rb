@@ -1,11 +1,12 @@
 require 'pry'
 class Museum
 
-  attr_reader :name, :exhibits
+  attr_reader :name, :exhibits, :patrons
 
   def initialize(name)
     @name = name
     @exhibits = []
+    @patrons = []
   end
 
   def add_exhibit(name)
@@ -20,6 +21,21 @@ class Museum
     exhibits.select do |exhibit|
       recommended.include?(exhibit.name)
     end
+  end
+
+  def admit(patron)
+    @patrons << patron
+  end
+
+  def patrons_by_exhibit_interest
+
+    patron_array = exhibits.map do |exhibit|
+      patrons.select do |patron|
+        patron.interests.include?(exhibit.name)
+      end
+    end
+
+    exhibits.zip(patron_array).to_h
 
   end
 
